@@ -1,0 +1,39 @@
+{
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-traceur": "^0.5.1",
+    "traceur": "^0.0.81"
+  },
+  "name": "rdio-controls-chrome-ext",
+  "description": "rdio-controls-chrome-ext",
+  "version": "0.0.1",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cbrock/rdio-controls-chrome-ext.git"
+  },
+  "keywords": [
+    "rdio",
+    "chrome",
+    "extension"
+  ],
+  "author": "https://github.com/cbrock",
+  "license": {
+    "type": "GNU",
+    "url": "https://github.com/cbrock/rdio-controls-chrome-ext/blob/master/LICENSE"
+  },
+  "bugs": {
+    "url": "https://github.com/cbrock/rdio-controls-chrome-ext/issues"
+  },
+  "homepage": "https://github.com/cbrock/rdio-controls-chrome-ext"
+}
