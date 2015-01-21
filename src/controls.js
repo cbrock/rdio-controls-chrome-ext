@@ -9,7 +9,7 @@ export default function foo() {
 
   chrome.browserAction.onClicked.addListener( function () {
 
-    chrome.browserAction.setIcon({ path: !playing ? 'icon-on.png' : 'icon-off.png' }, function () {
+    chrome.browserAction.setIcon({ path: !playing ? 'assets/icon-on.png' : 'assets/icon-off.png' }, function () {
       playing = !playing;
     });
 
