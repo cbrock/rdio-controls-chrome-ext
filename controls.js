@@ -23,3 +23,5 @@ chrome.browserAction.onClicked.addListener( function () {
 
   });
 });
+
+console.log("controls.js");

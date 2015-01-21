@@ -10,6 +10,8 @@
     "default_icon": "icon-off.png"
   },
   "background": {
-    "scripts": ["controls.js"]
+    "scripts": [
+      "dist/rdio-controls-chrome-ext.min.js"
+    ]
   }
 }
