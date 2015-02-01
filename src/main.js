@@ -1,3 +1,3 @@
-import foo from 'controls';
+import controls from 'controls';
 
-foo();
+controls();

@@ -1,26 +1,62 @@
-/**
-* Find an rdio tab and toggle the play/pause button
-*/
-export default function foo() {
+export default () => {
+
   var options = {
         url: '*://www.rdio.com/*'
       },
-      playing = false;
+      codeToExecute = {
+        code: 'document.querySelectorAll(".play_pause")[0].click()'
+      },
+      rdio,
+      playing;
 
-  chrome.browserAction.onClicked.addListener( function () {
+  // inject messaging into each rdio tab
+  function injectTogglePlay () {
 
-    chrome.browserAction.setIcon({ path: !playing ? 'assets/icon-on.png' : 'assets/icon-off.png' }, function () {
-      playing = !playing;
-    });
+    var el = document.querySelectorAll(".play_pause")[0],
+        sendInitMessage = true,
+        playing;
 
-    chrome.tabs.query(options, function (tabs) {
-      var details = {
-        code: 'document.getElementsByClassName("play_pause")[0].click();'
-      };
-      tabs.forEach(function (tab) {
-        chrome.tabs.executeScript(tab.id, details);
+    if (!el) return;
+
+    if (sendInitMessage) {
+      chrome.runtime.sendMessage({
+        playing: el.className.indexOf('playing') > -1
+      }, () => {
+        sendInitMessage = false;
       });
+    }
 
+    // Send the current `playing` status back to the extension
+    el.addEventListener('click', () => {
+      chrome.runtime.sendMessage({
+        playing: el.className.indexOf('playing') === -1
+      });
     });
+
+  }
+
+  // toggle play/pause from the extension
+  function togglePlay () {
+    document.querySelectorAll(".play_pause")[0].click();
+  }
+
+  chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+    console.log('onMessage: ', request);
+
+    playing = request.playing;
+
+    chrome.browserAction.setIcon({ path: playing ? 'assets/icon-on.png' : 'assets/icon-off.png' });
   });
-}
+
+  chrome.tabs.query(options, (tabs) => {
+    // Only care about the first rdio tab we come across. Why would you have multiple rdio tabs open?
+    rdio = tabs[0];
+    chrome.tabs.executeScript(rdio.id, { code: '(' + injectTogglePlay.toString() + '());'});
+  });
+
+  chrome.browserAction.onClicked.addListener( () => {
+    console.log('chrome listener added for tab:', rdio.id);
+    chrome.tabs.executeScript(rdio.id, { code: '(' + togglePlay.toString() + '());'});
+  });
+
+};

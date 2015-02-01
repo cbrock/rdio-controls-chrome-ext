@@ -4,6 +4,7 @@
   "description": "play/pause rdio from any tab",
   "version": "0.0.1",
   "permissions": [
+    "tabs",
     "http://www.rdio.com/"
   ],
   "browser_action": {
@@ -13,5 +14,6 @@
     "scripts": [
       "dist/rdio-controls-chrome-ext.min.js"
     ]
-  }
+  },
+  "manifest_version": 2
 }
