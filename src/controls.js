@@ -3,9 +3,6 @@ export default () => {
   var options = {
         url: '*://www.rdio.com/*'
       },
-      codeToExecute = {
-        code: 'document.querySelectorAll(".play_pause")[0].click()'
-      },
       rdio,
       playing;
 
