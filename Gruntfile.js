@@ -11,21 +11,15 @@ module.exports = function(grunt) {
       ' Licensed <%= pkg.license.type %> */\n',
 
     // Task configuration.
-    traceur: {
+    babel: {
       options: {
-        experimental: true,
-        copyRuntime: 'tmp',
-        moduleNaming: {
-          stripPrefix: "tmp",
-        }
+        modules: 'umd'
       },
-      custom: {
-        files: [{
-          expand: true,
-          cwd: 'src',
-          src: ['*.js'],
-          dest: 'tmp'
-        }]
+      dist: {
+        files: {
+          'tmp/controls.js': 'src/controls.js',
+          'tmp/main.js': 'src/main.js'
+        }
       }
     },
     concat: {
@@ -35,25 +29,17 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          // `traceur_runtime.js` must be concatenated first...
-          'tmp/traceur_runtime.js',
-
-          'tmp/*.js',
-
-          // ...`init.js` must be concatenated last
-          'init.js'
+          'tmp/controls.js',
+          'tmp/main.js'
         ],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
     jshint: {
-      beforecompile: {
-        options: {
-          esnext: true
-        },
-        src: ['src/**/*.js']
+      options: {
+        'esnext': true
       },
-      beforeconcat: ['tmp/!(traceur_runtime).js']
+      src: ['src/*.js']
     },
     uglify: {
       options: {
@@ -66,7 +52,10 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['src/**/*.js'],
+        files: [
+          'manifest.json',
+          'src/*.js'
+        ],
         tasks: ['default']
       },
     },
@@ -76,12 +65,12 @@ module.exports = function(grunt) {
     ]
   });
 
-  grunt.loadNpmTasks('grunt-traceur');
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['jshint:beforecompile', 'traceur', 'jshint:beforeconcat', 'concat', 'uglify', 'clean']);
+  grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify', 'clean']);
 };
