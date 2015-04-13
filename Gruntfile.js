@@ -41,6 +41,12 @@ module.exports = function(grunt) {
       },
       src: ['src/*.js']
     },
+    jscs: {
+      src: 'src/*.js',
+      options: {
+          config: '.jscsrc'
+      }
+    },
     uglify: {
       options: {
         banner: '<%= banner %>'
@@ -68,9 +74,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify', 'clean']);
+  grunt.registerTask('default', ['jshint', 'jscs', 'babel', 'concat', 'uglify', 'clean']);
 };

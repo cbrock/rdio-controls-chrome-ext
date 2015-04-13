@@ -9,7 +9,8 @@
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.7.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^1.6.0"
   },
   "name": "rdio-controls-chrome-ext",
   "description": "rdio-controls-chrome-ext",

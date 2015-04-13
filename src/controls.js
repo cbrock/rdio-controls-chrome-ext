@@ -1,12 +1,14 @@
 var rdioTab,
     rdioIsPlaying;
 
-function injectRdioListener () {
-  var el = document.querySelectorAll(".play_pause")[0],
+function injectRdioListener() {
+  var el = document.querySelectorAll('.play_pause')[0],
       sendInitMessage = true,
       playing;
 
-  if (!el) return;
+  if (!el) {
+    return;
+  }
 
   if (sendInitMessage) {
     chrome.runtime.sendMessage({
@@ -24,8 +26,8 @@ function injectRdioListener () {
   });
 }
 
-function toggleRdio () {
-  document.querySelectorAll(".play_pause")[0].click();
+function toggleRdio() {
+  document.querySelectorAll('.play_pause')[0].click();
 }
 
 export default function () {
@@ -33,7 +35,7 @@ export default function () {
         url: '*://www.rdio.com/*'
       };
 
-  chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('onMessage: ', request);
 
     rdioIsPlaying = request.isPlaying;
@@ -53,7 +55,7 @@ export default function () {
     }
   });
 
-  chrome.browserAction.onClicked.addListener( () => {
+  chrome.browserAction.onClicked.addListener(() => {
     console.log('chrome listener added for tab:', rdioTab.id);
     chrome.tabs.executeScript(rdioTab.id, { code: '(' + toggleRdio.toString() + '());'});
   });
