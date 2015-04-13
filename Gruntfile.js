@@ -56,6 +56,14 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
+    copy: {
+      main: {
+        files: [
+          {expand: true, src: ['assets/*'], dest: 'dist/', filter: 'isFile'},
+          {expand: true, src: ['manifest.json'], dest: 'dist/', filter: 'isFile'}
+        ]
+      }
+    },
     watch: {
       scripts: {
         files: [
@@ -76,8 +84,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['jshint', 'jscs', 'babel', 'concat', 'uglify', 'clean']);
+  grunt.registerTask('default', ['jshint', 'jscs', 'babel', 'concat', 'uglify', 'copy', 'clean']);
 };

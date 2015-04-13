@@ -12,7 +12,7 @@
   },
   "background": {
     "scripts": [
-      "dist/rdio-controls-chrome-ext.min.js"
+      "rdio-controls-chrome-ext.min.js"
     ]
   },
   "manifest_version": 2
