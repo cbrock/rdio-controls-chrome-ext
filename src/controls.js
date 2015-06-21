@@ -30,6 +30,18 @@ function toggleRdio() {
   document.querySelectorAll('.play_pause')[0].click();
 }
 
+function isValidTab(tab) {
+  var isValid = false;
+
+  if (tab.hasOwnProperty('id')) {
+    chrome.tabs.get(tab.id, function (tab) {
+      isValid = true;
+    });
+  }
+
+  return isValid;
+}
+
 export default function () {
   var queryOptions = {
         url: '*://www.rdio.com/*'
@@ -44,7 +56,6 @@ export default function () {
   });
 
   chrome.tabs.query(queryOptions, (tabs) => {
-    console.log(injectRdioListener, toggleRdio);
     // Only care about the first rdio tab we come across. Why would you have multiple rdio tabs open?
     rdioTab = tabs[0];
     if (rdioTab) {
@@ -58,5 +69,11 @@ export default function () {
   chrome.browserAction.onClicked.addListener(() => {
     console.log('chrome listener added for tab:', rdioTab.id);
     chrome.tabs.executeScript(rdioTab.id, { code: '(' + toggleRdio.toString() + '());'});
+  });
+
+  chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (tab.url.includes('www.rdio.com') && !isValidTab(rdioTab)) {
+      rdioTab = tab;
+    }
   });
 }
